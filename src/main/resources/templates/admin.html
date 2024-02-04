@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Admin page</title>
+</head>
+
+<body>
+<h1>Admin page</h1>
+<form method="POST" th:action="@{/admin/deleteAll}" id="deleteDictsForm">
+    <input type="submit" value="Delete all dicts."/>
+</form>
+<form method="POST" th:action="@{/logout}" id="logoutForm">
+    <input type="submit" value="Logout"/>
+</form>
+
+<div><a th:href="@{/home}" id="home">Home</a></div>
+<!-- <div><a th:href="@{/dicts}" id="dicts">Словарь (не доступен для admin)</a></div> -->
+<br/>
+<div><span th:text="${db_save_error}"></span></div>
+<h2>View dicts</h2>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Number</th>
+    </tr>
+    <tr th:each="dict: ${dicts}">
+        <td th:text="${dict.id}"></td>
+        <td th:text="${dict.name}"></td>
+        <td th:text="${dict.number}"></td>
+    </tr>
+</table>
+</body>
+</html>

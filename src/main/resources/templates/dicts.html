@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Dictionary</title>
+</head>
+<body>
+<style>span.validationError { color: red; }</style>
+<h2>View dicts</h2>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Number</th>
+    </tr>
+    <tr th:each="dict: ${dicts}">
+        <td th:text="${dict.id}"></td>
+        <td th:text="${dict.name}"></td>
+        <td th:text="${dict.number}"></td>
+    </tr>
+</table>
+<h2>Add a dict</h2>
+<form th:action="@{/dicts}" method="post" th:object="${dict}">
+    <label for="name">Name: </label>
+    <input type="text" th:field="*{name}"/>
+                <span class="validationError"
+                      th:if="${#fields.hasErrors('name')}"
+                      th:errors="*{name}">Name Error</span>
+    <br/>
+    <label for="number">Number: </label>
+     <input type="number" th:field="*{number}"/>
+                <span class="validationError"
+                      th:if="${#fields.hasErrors('number')}"
+                      th:errors="*{number}">Number Error</span>
+
+    <br/><button type="submit">Add dict</button>
+    <br/><div><span th:text="${db_save_error}"></span></div>
+</form>
+<a th:href="@{/home}" id="home">Home</a>
+</body>
+</html>

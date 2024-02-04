@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Словарь. Home</title>
+</head>
+
+<body>
+<style>
+a.accessYes, h2.accessYes { color: green; }
+a.accessNo, h2.accessNo { color: red; }
+
+</style>
+<h2>Словарь. Home</h2>
+<!--
+    <form method="POST" th:action="@{/logout}" id="logoutForm">
+      <input type="submit" value="Logout"/>
+    </form>
+    <a th:href="@{/dicts}" id="design">Словарь</a>
+    <br/>
+-->
+<div>
+    <nav>
+        <h2>Список закрытых страниц:</h2>
+        <ul>
+            <li><a th:href="@{/dicts}">Словарь для USER</a>
+                <a class="accessYes" sec:authorize="hasRole('USER')">Доступна</a>
+                <a class="accessNo" sec:authorize="!hasRole('USER')">Недоступна</a>
+            </li>
+            <li><a th:href="@{/admin}">admin для ADMIN</a>
+                <a class="accessYes" sec:authorize="hasRole('ADMIN')">Доступна</a>
+                <a class="accessNo" sec:authorize="!hasRole('ADMIN')">Недоступна</a>
+            </li>
+            <li><a th:href="@{/api}">REST API для USER или ADMIN</a>
+                <a class="accessYes" sec:authorize="hasAnyRole('USER', 'ADMIN')">Доступна</a>
+                <a class="accessNo" sec:authorize="!hasAnyRole('USER', 'ADMIN')">Недоступна</a>
+            </li>
+            <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Ввести логин</a></li>
+            <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Разлогиниться"/>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div>
+    <nav>
+        <h2>Список публичных страниц:</h2>
+        <ul>
+            <li><a th:href="@{/home}">Home для всех</a></li>
+            <li><a th:href="@{/swagger-ui.html}">Swagger. Список ресурсов REST API для всех</a></li>
+            <li><a th:href="@{/h2-console}">БД Н2 для всех</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div sec:authorize="!isAuthenticated()">
+    <h2 class="accessNo">Ни один пользователь не залогинился</h2>
+</div>
+<div sec:authorize="isAuthenticated()">
+    <a class="accessYes">Залогинился пользователь:</a>
+    <a class="accessYes" sec:authentication="name">???</a>
+    <a class="accessYes" sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</a>
+</div>
+<h2>Участники</h2>
+<table>
+    <tr>
+        <th>Участник</th>
+        <th>Полное имя</th>
+        <th>Роль</th>
+    </tr>
+    <tr th:each="user: ${users}">
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.fullname}"></td>
+        <td th:text="${user.roles}"></td>
+    </tr>
+</table>
+</body>
+</html>

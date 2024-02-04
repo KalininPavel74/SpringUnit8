@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    name: tasks
+    generate-unique-name: false
+  data:
+    rest:
+      base-path: /default-api
+  thymeleaf:
+    cache: false
+  jpa:
+    show-sql: false
+    hibernate:
+      show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
